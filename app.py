@@ -1265,9 +1265,17 @@ def get_top_recipes(ingredients, top_n=6):
 
     return top_recipes
 
-@app.route('/recommend_recipe', methods=['GET'])
+@app.route('/recommend_recipe', methods=['POST'])
 def recommend_recipe():
-    ingredients = ['cheese','tomato','bread','onion']
+    # ingredients = ['cheese','tomato','bread','onion']
+    data = request.get_json()
+
+    # Check if 'ingredients' key exists in the JSON data
+    if 'ingredients' not in data:
+        return jsonify({"error": "No ingredients provided"}), 400
+
+    # Extract ingredients from the JSON data
+    ingredients = data['ingredients']
     
     # Validate input
     if not ingredients:
